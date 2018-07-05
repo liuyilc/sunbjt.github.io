@@ -2,9 +2,7 @@ title: Beta
 author: 刘思喆
 email: sunbjt@gmail.com
 description: > # this means to ignore newlines until "twitter_username:"
-  Write an awesome description for your new site here. You can edit this
-  line in _config.yml. It will appear in your document head meta (for
-  Google search results) and in your feed.xml site description.
+  It’s a beautiful thing when free data meets free algorithm
 
 # social links
 # twitter_username: jekyllrb
@@ -33,12 +31,15 @@ show_excerpts: false # set to true to show excerpts on the homepage
 # Minima date format
 # refer to http://shopify.github.io/liquid/filters/date/ if you want to customize this
 minima:
-  date_format: "%b %-d, %Y"
+  date_format: "%b %d, %Y"
 
 # If you want to link only specific pages in your header, uncomment
 # this and add the path to the pages in order as they should show up
-#header_pages:
-# - about.md
+header_pages:
+ - about.md
+ - archive.md
+ - todo.md
+ - search.html
 
 # Build settings
 theme: minima
@@ -46,3 +47,6 @@ theme: minima
 plugins:
  - jekyll-feed
  - jekyll-seo-tag
+
+disqus:
+ shortname: sunbjt

@@ -16,7 +16,7 @@ layout: default
 </div>
 <div class="block">
     {% for tag in site.tags %}
-    {% if tag[1].size > 1 %}
+    {% if tag[1].size > 2 %}
     <a href="/tag/#{{ tag | first }}">{{ tag | first }}<sup>{{ tag[1].size }}</sup></a>
     {% endif %}
     {% endfor %}<a href="/tag"> ???? </a>

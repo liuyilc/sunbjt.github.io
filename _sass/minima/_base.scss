@@ -26,6 +26,7 @@ body {
   display: flex;
   min-height: 100vh;
   flex-direction: column;
+  font-family: 'Droid Serif', 'Palatino Linotype', 'Book Antiqua', Palatino, 'Songti SC', serif;
 }
 
 
@@ -152,6 +153,7 @@ code {
   border: 1px solid $grey-color-light;
   border-radius: 3px;
   background-color: #eef;
+  font-family: 'Source Code Pro'
 }
 
 code {
@@ -354,4 +356,19 @@ h4 {
 }
 h4 small {
     font-size: 12px;
+}
+
+@font-face {
+  font-family: 'Droid Serif';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Droid Serif'), local('DroidSerif'),
+       url('woff/droid-serif.woff') format('woff');
+}
+@font-face {
+  font-family: 'Source Code Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Source Code Pro'), local('SourceCodePro-Regular'),
+       url('woff/source-code-pro.woff') format('woff');
 }
