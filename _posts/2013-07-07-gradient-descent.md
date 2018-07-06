@@ -164,3 +164,64 @@ if __name__ == "__main__":
 
     nP, nQ = matrix_factorization(R, P, Q, K)
 ```
+
+
+```r
+
+steps <- 1000 # the maximum number of steps to perform the optimisation
+alpha <- 0.0002 # the learning rate
+beta <- 0.02 # the regularization parameter
+K <- 3  # the number of latent features
+
+R <- as.matrix(read.csv(textConnection("
+3 0 4 0 0 1 0
+1 0 1 0 2 0 0
+0 1 2 0 0 0 0
+0 0 0 0 2 0 3
+0 3 0 1 0 4 0
+0 0 0 3 0 2 5
+2 0 4 0 0 0 2
+3 3 5 0 0 1 0
+"), header = FALSE, sep = ' '))
+
+m <- nrow(R)
+n <- ncol(R)
+
+initM <- matrix(rnorm(m * K), m, K, byrow = T)
+
+Q <- list()
+P <- list()
+loss <- list()
+
+for(i in 1:10){
+    Qtmp <- lm(R ~ initM + 0)$coef
+    Q[[i]] <- Qtmp
+    Ptmp <- lm(t(Qtmp) ~ R + 0)$coef
+    Q[[i]] <- Ptmp
+    loss[[i]] <- R - Ptmp %*% Qtmp
+}
+
+
+def matrix_factorization(R, P, Q, K, steps=5000, alpha=0.0002, beta=0.02):
+    Q = Q.T
+    for step in xrange(steps):
+        for i in xrange(len(R)):
+            for j in xrange(len(R[i])):
+                if R[i][j] > 0:
+                    eij = R[i][j] - numpy.dot(P[i,:],Q[:,j])
+                    for k in xrange(K):
+                        P[i][k] = P[i][k] + alpha * (2 * eij * Q[k][j] - beta * P[i][k])
+                        Q[k][j] = Q[k][j] + alpha * (2 * eij * P[i][k] - beta * Q[k][j])
+        eR = numpy.dot(P,Q)
+        e = 0
+        for i in xrange(len(R)):
+            for j in xrange(len(R[i])):
+                if R[i][j] > 0:
+                    e = e + pow(R[i][j] - numpy.dot(P[i,:],Q[:,j]), 2)
+                    for k in xrange(K):
+                        e = e + (beta/2) * ( pow(P[i][k],2) + pow(Q[k][j],2) )
+        if e < 0.001:
+            break
+    return P, Q.T
+
+```
