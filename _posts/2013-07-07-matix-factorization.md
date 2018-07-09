@@ -1,0 +1,157 @@
+--- 
+layout: post
+title: 矩阵分解的一般性解法
+tags: 
+- 算法
+- factorization
+status: publish
+comments: true
+type: post
+published: true
+---
+
+矩阵分解技术是推荐系统常用的技术之一，它的变种出现在很多算法都有涉及。这里先不做展开，对于最基本的矩阵分解技术做一些原理和代码解释。
+
+
+# 矩阵分解的数学原理
+
+首先约定一下符号，对于用户（users）的集合 $$U$$，以及商品的集合 $$D$$，用$$R$$ 来表示用户商品信息的共现（$$U \times D $$）矩阵。我们现在想找出 K 个潜在的特征，即：找到两个新矩阵P（$$U \times K$$），Q（$$D \times K$$），使得：
+
+$$R = P \times Q^T = \hat{R}$$
+
+这时，P包含了所有的用户（U）的相关信息（特征），而Q则包含了商品的相关信息（特征）。那如何找到这两个矩阵呢？
+
+其中的一种方法就是梯度下降（gradient descent）：首先先给P、Q一些初始值，然后计算R和$$P \times Q$$的差异，接着通过迭代最小化二者的差异。这个差异我们一般用如下的方式表示：
+
+$$e_{ij}^2 = (r_{ij} - \hat{r}_{ij})^2 = (r_{ij} - \sum_{k=1}^K p_{ik} q_{kj})^2$$ 
+
+对于上式，我们必须找到一个方向来优化$$p_{ik},q_{kj}$$。换句话说，我们需要知道当前值的梯度下降方向：
+
+$$\frac{\partial e_{ij}^2}{\partial p_{ik}} = -2(r_{ij} - \hat{r}_{ij})(q_{kj}) = -2 e_{ij}q_{kj}$$
+ 
+$$\frac{\partial e_{ij}^2}{\partial q_{ik}} = -2(r_{ij} - \hat{r}_{ij})(p_{ik}) = -2 e_{ij}p_{ik}$$
+
+既然以及找到梯度，那则有
+
+$$p_{ik}^{new} = p_{ik} + 2\alpha e_{ij} q_{kj}$$
+
+$$q_{kj}^{new} = q_{kj} + 2\alpha e_{ij} p_{ik}$$
+
+这里$$\alpha$$ 是一个常数，决定梯度的步长，为了避免越过局部最优值，所以$$\alpha$$一般都是一个很小的数，比如0.0002。
+
+另外一个问题有来了：
+
+> 如果我们求得的 P 和 Q 的乘积同 R 完全一致，那么未观测的值（表示为零的行为），依旧是零。
+
+这里需要澄清一下：`我们只对原始数据不为零的元素求解二者差异，而不是全部的元素。`
+
+
+# 正则化 Regularization
+
+为了避免过拟合，我们一般会引入Regularization来作为惩罚项，一般是引入一个$$\beta$$来修改误差的平方：
+
+
+$$e_{ij}^2 = (r_{ij} - \sum_{k=1}^K p_{ik} q_{kj})^2 + \frac{\beta}{2} \sum_{k=1}^K(||P||^2 + ||Q||^2)$$
+
+$$\beta$$用来控制用户特征和商品特征的程度（magnitudes），保证P、Q对R的近似，但不会出现太大的数值。
+
+这样梯度下降的规则就变成了如下：
+
+$$p_{ik}^{new} = p_{ik} + 2\alpha e_{ij} q_{kj} - \beta p_{ik}$$
+
+$$q_{kj}^{new} = q_{kj} + 2\alpha e_{ij} p_{ik} - \beta q_{kj}$$
+
+
+# 上代码
+
+为了简化，我将 $$Q^T$$ 直接写成了 $$Q$$。
+
+```r
+
+steps <- 1000 # the maximum number of steps to perform the optimisation
+alpha <- 0.0002 # the learning rate
+beta <- 0.02 # the regularization parameter
+K <- 3  # the number of latent features
+
+R <- as.matrix(read.csv(textConnection("
+3 0 4 0 0 1 0
+1 0 1 0 2 0 0
+0 1 2 0 0 0 0
+0 0 0 0 2 0 3
+0 3 0 1 0 4 0
+0 0 0 3 0 2 5
+2 0 4 0 0 0 2
+3 3 5 0 0 1 0
+"), header = FALSE, sep = ' '))
+
+m <- nrow(R)
+n <- ncol(R)
+
+P <- matrix(rnorm(m * K), m, K, byrow = T)
+Q <- matrix(rnorm(n * K), K, n, byrow = T) 
+print(P)
+print(Q)
+
+eij <- numeric(1)
+loss <- numeric(steps)
+
+for(s in 1:steps){
+    for(i in 1:m){
+        for(j in 1:n){
+            if (R[i,j] > 0) eij <- R[i,j] - P[i,] %*% Q[,j]
+            for(k in 1:K){
+                P[i,k] <- P[i,k] + alpha * (2 * eij * Q[k,j] - beta * P[i,k])
+                Q[k,j] <- Q[k,j] + alpha * (2 * eij * P[i,k] - beta * Q[k,j])
+            }
+        }
+    }
+    e <- 0
+    for(i in 1:m){
+        for(j in 1:n){
+            if (R[i,j] > 0) e <- (R[i,j] - P[i,]%*%Q[,j])^2
+        }
+    }
+    loss[s] <- e
+}
+ggplot(data.frame(s = 1:steps, loss), aes(x = s, y = loss)) + geom_line()
+
+```
+
+
+我们先看一下每一步迭代后的损失
+
+
+![](/upload/pic/loss.png)
+
+> 客官会看到损失在后面有提高，如何规避请自行思考。
+
+
+对比一下结果：
+
+```r
+> round(P %*% Q, 2)
+     [,1] [,2]  [,3]  [,4] [,5]  [,6]  [,7]
+[1,] 2.86 2.71  4.06  3.34 2.46  0.97 -0.37
+[2,] 0.96 1.82  1.15  1.02 1.88 -1.53 -2.10
+[3,] 1.15 0.97  2.02  0.58 1.11  0.82  1.18
+[4,] 1.39 1.26  3.03 -0.53 1.88  1.12  2.95
+[5,] 4.00 2.98  7.63  1.03 3.79  3.87  6.34
+[6,] 7.60 8.09 13.33  2.99 9.57  2.11  5.03
+[7,] 2.15 2.15  3.90  0.65 2.62  0.92  2.01
+[8,] 3.18 3.14  4.87  2.87 3.16  1.00  0.43
+> R
+     V1 V2 V3 V4 V5 V6 V7
+[1,]  3  0  4  0  0  1  0
+[2,]  1  0  1  0  2  0  0
+[3,]  0  1  2  0  0  0  0
+[4,]  0  0  0  0  2  0  3
+[5,]  0  3  0  1  0  4  0
+[6,]  0  0  0  3  0  2  5
+[7,]  2  0  4  0  0  0  2
+[8,]  3  3  5  0  0  1  0
+```
+
+# 其他
+
+- 生产环境肯定不会这样存储数据的，不同的存储方式在计算逻辑上会大有不同。
+- $$\alpha$$和$$\beta$$的设置不同会导致收敛速度不一致，是否可以动态调整，答案是，请自行搜索。
