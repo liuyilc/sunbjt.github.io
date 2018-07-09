@@ -5,6 +5,7 @@ tags:
 - bigdata
 - business
 status: publish
+comments: true
 type: post
 published: false
 ---
@@ -187,19 +188,34 @@ R <- as.matrix(read.csv(textConnection("
 m <- nrow(R)
 n <- ncol(R)
 
-initM <- matrix(rnorm(m * K), m, K, byrow = T)
+P <- matrix(rnorm(m * K), m, K, byrow = T)
+Q <- matrix(rnorm(n * K), K, n, byrow = T) 
+print(P)
+print(Q)
 
-Q <- list()
-P <- list()
-loss <- list()
+eij <- numeric(1)
+loss <- numeric(steps)
 
-for(i in 1:10){
-    Qtmp <- lm(R ~ initM + 0)$coef
-    Q[[i]] <- Qtmp
-    Ptmp <- lm(t(Qtmp) ~ R + 0)$coef
-    Q[[i]] <- Ptmp
-    loss[[i]] <- R - Ptmp %*% Qtmp
+for(s in 1:steps){
+    for(i in 1:m){
+        for(j in 1:n){
+            if (R[i,j] > 0) eij <- R[i,j] - P[i,] %*% Q[,j]
+            for(k in 1:K){
+                P[i,k] <- P[i,k] + alpha * (2 * eij * Q[k,j] - beta * P[i,k])
+                Q[k,j] <- Q[k,j] + alpha * (2 * eij * P[i,k] - beta * Q[k,j])
+            }
+        }
+    }
+    e <- 0
+    for(i in 1:m){
+        for(j in 1:n){
+            if (R[i,j] > 0) e <- (R[i,j] - P[i,]%*%Q[,j])^2
+        }
+    }
+    loss[s] <- e
 }
+
+P %*% Q
 
 
 def matrix_factorization(R, P, Q, K, steps=5000, alpha=0.0002, beta=0.02):

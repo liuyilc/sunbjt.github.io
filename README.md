@@ -1,8 +1,8 @@
 # minima
 
-¸ÄĞ´×Ö Jekyll's Ä¬ÈÏÖ÷Ìâ [minima](https://jekyll.github.io/minima/). 
+æ”¹å†™å­— Jekyll's é»˜è®¤ä¸»é¢˜ [minima](https://jekyll.github.io/minima/). 
 
-## ±¾µØÒÀÀµ»·¾³´î½¨
+## æœ¬åœ°ä¾èµ–ç¯å¢ƒæ­å»º
 
 
 ```ruby
@@ -13,9 +13,9 @@ gem install jekyll-feed
 gem install jekyll-seo-tag
 ```
 
-## ·ÃÎÊ
+## è®¿é—®
 
-±¾µØ·ÃÎÊÄ£Ê½£º
+æœ¬åœ°è®¿é—®æ¨¡å¼ï¼š
 
 ```ruby
 jekyll serve
@@ -25,7 +25,7 @@ Server address: http://127.0.0.1:4000/
 Server running... press ctrl-c to stop.
 ```
 
-¾ÖÓòÍøIP·ÃÎÊ£¨ÈçÊÖ»ú°æµ÷ÊÔ£©£º
+å±€åŸŸç½‘IPè®¿é—®ï¼ˆå¦‚æ‰‹æœºç‰ˆè°ƒè¯•ï¼‰ï¼š
 
 ```ruby
 jekyll serve -w --host=0.0.0.0
