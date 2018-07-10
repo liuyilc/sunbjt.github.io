@@ -7,14 +7,18 @@ permalink: /todo/
 
 ## 最近在干嘛 #
 
+
+- 2018.06 基于用户行为的GloVe与BPFR-MF老师推荐
+- 2018.04 青少英语启蒙理论(Done)
+- 2017.08 Computerized adaptive test (Done) 
+- 2017.07 TensorFlow in R (Pause)
+- 2017.05 R Web Service (Done)
 - 2016.09 Docker for R，的确对于复杂环境，尤其是正式生产环境可以玩耍的空间很大
 - 2016.07 发现shiny可以玩的东西很多，各种有趣的使用方式，包括连接数据库速度非常快(Done)
 - 2016.01 第二次review主题模型 - Structural Topic Model(Done)
 - 2015.11 图数据库，主要在使用Neo4j(Pause)
 - 2015.11 Deep Learning (Done)
-- 2017.05 R Web Service (Done)
-- 2017.07 TensorFlow in R (Pause)
-- 2017.08 Computerized adaptive test (Done) 
+
 
 ## 完结 #
 
