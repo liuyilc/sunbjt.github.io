@@ -7,7 +7,7 @@ permalink: /todo/
 
 ## 最近在干嘛 #
 
-
+- 2018.10 Language Assessment 服务于英语的个性化学习
 - 2018.06 基于用户行为的GloVe与BPFR-MF老师推荐
 - 2018.04 青少英语启蒙理论(Done)
 - 2017.08 Computerized adaptive test (Done) 
@@ -24,7 +24,7 @@ permalink: /todo/
 
 - [153分钟学会R](http://cran.r-project.org/doc/contrib/Liu-FAQ.pdf)
 - [R语言环境下的文本挖掘](/upload/pdf/Text-Mining-in-R.pdf) v0.02，原生函数做法参见[这里](/2016/09/document-term-matrix)
-- [R Reference Card](http://cran.r-project.org/doc/contrib/Liu-R-refcard.pdf)
+- [R Reference Card](http://cran.r-project.org/doc/contrib/Liu-R-refcard.pdf),[github](https://github.com/sunbjt/r_reference)
 
 ## 已出版物
 
