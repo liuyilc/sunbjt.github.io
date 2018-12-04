@@ -1,8 +1,8 @@
 ---
 title: "数据科学助力在线教育革命"
-subtitle: ""
+subtitle: "BI&AI @ 51Talk"
 author: "刘思喆"
-date: '`r Sys.Date()`'
+date: '2018-12-08'
 output:
   xaringan::moon_reader:
     css: [default, zh-CN.css]
@@ -16,7 +16,7 @@ output:
 ---
 # Outline
 
-1. 在线英语业务概览
+1. 51Talk在线英语业务概览
 
 2. 营销端优化
 
@@ -35,7 +35,7 @@ output:
   - 帮学生找到喜欢的老师
 
 ---
-# 关于51Talk
+# 关于我们
 
 - 青少、成人、班课三条业务线
 
@@ -52,6 +52,12 @@ output:
 ???
 
 35RMB每节课，高频
+
+---
+class:middle
+### 学员广泛分布在全国各地：最西到喀什，最南到西沙群岛，最北到漠河，最东到……
+
+![](attach/map.png)
 
 ---
 class: middle
