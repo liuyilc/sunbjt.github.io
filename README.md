@@ -1,6 +1,6 @@
 # minima
 
-改写字 Jekyll's 默认主题 [minima](https://jekyll.github.io/minima/). 
+改写自 Jekyll's 默认主题 [minima](https://jekyll.github.io/minima/). 
 
 ## 本地依赖环境搭建
 
