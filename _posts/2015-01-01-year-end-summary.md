@@ -6,7 +6,7 @@ tags:
 - personal
 status: publish
 type: post
-published: true
+published: false
 ---
 
 每年年底的时候都说要写一个年终总结，但每年都各种原因的推托。几年再不写实在说不过去，至少写一些流水账来。
