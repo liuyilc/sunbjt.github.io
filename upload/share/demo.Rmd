@@ -5,7 +5,7 @@ author: "谢益辉"
 date: "2016/12/12"
 output:
   xaringan::moon_reader:
-    css: [default, zh-CN.css, header.css]
+    css: [default, zh-CN.css, header.css, 'https://use.fontawesome.com/releases/v5.8.1/css/all.css']
     lib_dir: libs
     nature:
       highlightStyle: github
@@ -25,3 +25,14 @@ output:
 .hover_large[
   ![Sharingan](https://pic2.zhimg.com/9ab9a0f5bdf4de19bf2b398f106e876c_r.jpg)
 ]
+
+---
+# 使用awesome font
+
+- <i class="fas fa-radiation"></i> <i class="fas fa-hourglass-start"></i> 回归
+
+- <i class="far fa-grin-alt"></i> <i class="fas fa-hourglass-start"></i> 分类
+
+- <i class="far fa-angry"></i> <i class="fas fa-hourglass-start"></i> 排序
+
+以上是调用了几个作为标记的图标。
